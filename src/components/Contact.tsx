@@ -21,6 +21,11 @@ const Section = styled.section`
   @media (max-width: 768px) { padding: 5rem 1.5rem; }
 `
 
+const Inner = styled.div`
+  max-width: 1100px;
+  margin: 0 auto;
+`
+
 const Header = styled.div`
   text-align: center;
   margin-bottom: 4rem;
@@ -55,12 +60,12 @@ const Subtitle = styled.p`
   line-height: 1.6;
 `
 
-const Grid = styled.div`
-  max-width: 1000px;
-  margin: 0 auto;
+const Grid = styled.div<{ $cols: number }>`
   display: grid;
-  grid-template-columns: 1fr 1.4fr;
+  grid-template-columns: ${({ $cols }) => $cols === 2 ? '1fr 1.4fr' : '1fr'};
   gap: 3rem;
+  max-width: ${({ $cols }) => $cols === 2 ? '1000px' : '600px'};
+  margin: 0 auto;
 
   @media (max-width: 900px) { grid-template-columns: 1fr; }
 `
@@ -204,8 +209,9 @@ export default function LKContact({ settings }: Props) {
   const [sending, setSending] = useState(false)
 
   const waLink = settings?.whatsapp ? `https://wa.me/${settings.whatsapp}` : '#'
-  const mailLink = settings?.email ? `mailto:${settings.email}` : '#'
   const fbLink = settings?.facebook || '#'
+
+  const hasInfo = !!(settings?.whatsapp || settings?.phone1 || settings?.phone2 || settings?.email || settings?.facebook || settings?.address)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -215,97 +221,101 @@ export default function LKContact({ settings }: Props) {
 
   return (
     <Section id="contact">
-      <Header>
-        <Tag>▶ Hablemos</Tag>
-        <Title>CONTACTANOS</Title>
-        <Subtitle>
-          ¿Tenés preguntas o necesitás una cotización? Comunicate con nosotros.
-        </Subtitle>
-      </Header>
+      <Inner>
+        <Header>
+          <Tag>▶ Hablemos</Tag>
+          <Title>CONTACTANOS</Title>
+          <Subtitle>
+            ¿Tenés preguntas o necesitás una cotización? Comunicate con nosotros.
+          </Subtitle>
+        </Header>
 
-      <Grid>
-        <InfoCol>
-          {settings?.whatsapp && (
-            <InfoCard href={waLink} target="_blank" rel="noopener">
-              <InfoIcon>📱</InfoIcon>
-              <InfoContent>
-                <InfoLabel>WhatsApp</InfoLabel>
-                <InfoValue>+{settings.whatsapp}</InfoValue>
-              </InfoContent>
-            </InfoCard>
+        <Grid $cols={hasInfo ? 2 : 1}>
+          {hasInfo && (
+            <InfoCol>
+              {settings?.whatsapp && (
+                <InfoCard href={waLink} target="_blank" rel="noopener">
+                  <InfoIcon>📱</InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>WhatsApp</InfoLabel>
+                    <InfoValue>+{settings.whatsapp}</InfoValue>
+                  </InfoContent>
+                </InfoCard>
+              )}
+              {settings?.phone1 && (
+                <InfoCard href={`tel:${settings.phone1}`}>
+                  <InfoIcon>📞</InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>Teléfono</InfoLabel>
+                    <InfoValue>{settings.phone1}</InfoValue>
+                  </InfoContent>
+                </InfoCard>
+              )}
+              {settings?.phone2 && (
+                <InfoCard href={`tel:${settings.phone2}`}>
+                  <InfoIcon>📞</InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>Teléfono 2</InfoLabel>
+                    <InfoValue>{settings.phone2}</InfoValue>
+                  </InfoContent>
+                </InfoCard>
+              )}
+              {settings?.email && (
+                <InfoCard href={`mailto:${settings.email}`}>
+                  <InfoIcon>✉️</InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>Email</InfoLabel>
+                    <InfoValue>{settings.email}</InfoValue>
+                  </InfoContent>
+                </InfoCard>
+              )}
+              {settings?.facebook && (
+                <InfoCard href={fbLink} target="_blank" rel="noopener">
+                  <InfoIcon>📘</InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>Facebook</InfoLabel>
+                    <InfoValue>Laser King</InfoValue>
+                  </InfoContent>
+                </InfoCard>
+              )}
+              {settings?.address && (
+                <InfoCard as="div">
+                  <InfoIcon>📍</InfoIcon>
+                  <InfoContent>
+                    <InfoLabel>Dirección</InfoLabel>
+                    <InfoValue>{settings.address}</InfoValue>
+                  </InfoContent>
+                </InfoCard>
+              )}
+            </InfoCol>
           )}
-          {settings?.phone1 && (
-            <InfoCard href={`tel:${settings.phone1}`}>
-              <InfoIcon>📞</InfoIcon>
-              <InfoContent>
-                <InfoLabel>Teléfono</InfoLabel>
-                <InfoValue>{settings.phone1}</InfoValue>
-              </InfoContent>
-            </InfoCard>
-          )}
-          {settings?.phone2 && (
-            <InfoCard href={`tel:${settings.phone2}`}>
-              <InfoIcon>📞</InfoIcon>
-              <InfoContent>
-                <InfoLabel>Teléfono 2</InfoLabel>
-                <InfoValue>{settings.phone2}</InfoValue>
-              </InfoContent>
-            </InfoCard>
-          )}
-          {settings?.email && (
-            <InfoCard href={mailLink}>
-              <InfoIcon>✉️</InfoIcon>
-              <InfoContent>
-                <InfoLabel>Email</InfoLabel>
-                <InfoValue>{settings.email}</InfoValue>
-              </InfoContent>
-            </InfoCard>
-          )}
-          {settings?.facebook && (
-            <InfoCard href={fbLink} target="_blank" rel="noopener">
-              <InfoIcon>📘</InfoIcon>
-              <InfoContent>
-                <InfoLabel>Facebook</InfoLabel>
-                <InfoValue>Laser King</InfoValue>
-              </InfoContent>
-            </InfoCard>
-          )}
-          {settings?.address && (
-            <InfoCard as="div">
-              <InfoIcon>📍</InfoIcon>
-              <InfoContent>
-                <InfoLabel>Dirección</InfoLabel>
-                <InfoValue>{settings.address}</InfoValue>
-              </InfoContent>
-            </InfoCard>
-          )}
-        </InfoCol>
 
-        <FormCol>
-          <Form onSubmit={handleSubmit}>
-            <FormTitle>ENVIANOS UN MENSAJE</FormTitle>
-            <FormSubtitle>Te respondemos a la brevedad</FormSubtitle>
+          <FormCol>
+            <Form onSubmit={handleSubmit}>
+              <FormTitle>ENVIANOS UN MENSAJE</FormTitle>
+              <FormSubtitle>Te respondemos a la brevedad</FormSubtitle>
 
-            <FormRow>
+              <FormRow>
+                <FormGroup>
+                  <input type="text" placeholder="Nombre" required />
+                </FormGroup>
+                <FormGroup>
+                  <input type="email" placeholder="Email" required />
+                </FormGroup>
+              </FormRow>
               <FormGroup>
-                <input type="text" placeholder="Nombre" required />
+                <input type="tel" placeholder="Teléfono (opcional)" />
               </FormGroup>
               <FormGroup>
-                <input type="email" placeholder="Email" required />
+                <textarea placeholder="Tu mensaje..." required />
               </FormGroup>
-            </FormRow>
-            <FormGroup>
-              <input type="tel" placeholder="Teléfono (opcional)" />
-            </FormGroup>
-            <FormGroup>
-              <textarea placeholder="Tu mensaje..." required />
-            </FormGroup>
-            <SubmitBtn type="submit" $sent={sent} disabled={sending || sent}>
-              {sending ? 'Enviando...' : sent ? '✓ Mensaje enviado' : '▶ Enviar mensaje'}
-            </SubmitBtn>
-          </Form>
-        </FormCol>
-      </Grid>
+              <SubmitBtn type="submit" $sent={sent} disabled={sending || sent}>
+                {sending ? 'Enviando...' : sent ? '✓ Mensaje enviado' : '▶ Enviar mensaje'}
+              </SubmitBtn>
+            </Form>
+          </FormCol>
+        </Grid>
+      </Inner>
     </Section>
   )
 }

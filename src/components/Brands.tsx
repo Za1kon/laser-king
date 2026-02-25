@@ -5,7 +5,7 @@ import { Theme } from '@/styles/theme'
 
 const scroll = keyframes`
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(-33.333%); }
 `
 
 const Section = styled.section`
@@ -37,7 +37,8 @@ const Track = styled.div`
   display: flex;
   gap: 4rem;
   width: max-content;
-  animation: ${scroll} 20s linear infinite;
+  animation: ${scroll} 25s linear infinite;
+  padding-right: 4rem;
 
   &:hover { animation-play-state: paused; }
 `
@@ -57,12 +58,13 @@ const BrandName = styled.span`
 const brands = ['EPSON', 'HP', 'XEROX', 'LEXMARK', 'SAMSUNG', 'BROTHER', 'RICOH', 'CANON']
 
 export default function LKBrands() {
-  const doubled = [...brands, ...brands]
+  // Triple the brands so the loop is seamless at -33.33%
+  const tripled = [...brands, ...brands, ...brands]
 
   return (
     <Section>
       <Track>
-        {doubled.map((b, i) => (
+        {tripled.map((b, i) => (
           <BrandName key={i}>{b}</BrandName>
         ))}
       </Track>
