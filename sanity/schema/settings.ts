@@ -10,7 +10,6 @@ export const SettingsSchema = defineType({
       title: 'Online Store URL (Tienda Online button)',
       type: 'url',
       description: 'URL where the "Tienda Online" button will redirect',
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'whatsapp',
