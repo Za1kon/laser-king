@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "createdAt": "2026-02-25T06:44:58.359Z",
+  "createdAt": "2026-02-26T21:44:38.957Z",
   "workspaces": [
     {
       "name": "laser-king",
@@ -13,7 +13,7 @@
         "enabled": false,
         "__internal": {}
       },
-      "schema": "6cdf5aab.create-schema.json",
+      "schema": "f7a97d59.create-schema.json",
       "tools": "d57bf8ec.create-tools.json"
     }
   ],

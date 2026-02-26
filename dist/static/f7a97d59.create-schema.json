@@ -1,0 +1,161 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL where the \"Tienda Online\" button will redirect",
+        "name": "storeUrl",
+        "type": "url",
+        "title": "Online Store URL (Tienda Online button)"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Full number with country code, e.g. 5493417483899",
+        "name": "whatsapp",
+        "type": "string",
+        "title": "WhatsApp number"
+      },
+      {
+        "description": "e.g. +54 9 341 748-3899",
+        "name": "phone1",
+        "type": "string"
+      },
+      {
+        "description": "e.g. +54 9 341 590-1464",
+        "name": "phone2",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "email",
+        "type": "string"
+      },
+      {
+        "description": "Without the @",
+        "name": "instagram",
+        "type": "string",
+        "title": "Instagram username"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Full URL e.g. https://facebook.com/laserking",
+        "name": "facebook",
+        "type": "url",
+        "title": "Facebook URL"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "e.g. España 2049, Rosario, Santa Fe",
+        "name": "address",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "e.g. -32.9468",
+        "name": "mapLat",
+        "type": "number",
+        "title": "Map latitude"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "e.g. -60.6393",
+        "name": "mapLng",
+        "type": "number",
+        "title": "Map longitude"
+      }
+    ],
+    "name": "Settings",
+    "type": "document",
+    "title": "Site Settings"
+  }
+]
