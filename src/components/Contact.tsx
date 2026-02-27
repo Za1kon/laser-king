@@ -3,7 +3,6 @@
 import styled from 'styled-components'
 import { Theme } from '@/styles/theme'
 import { SiteSettings } from '@/lib/sanity'
-import { useState } from 'react'
 
 const Section = styled.section`
   padding: 7rem 3rem;
@@ -205,19 +204,10 @@ interface Props {
 }
 
 export default function LKContact({ settings }: Props) {
-  const [sent, setSent] = useState(false)
-  const [sending, setSending] = useState(false)
-
   const waLink = settings?.whatsapp ? `https://wa.me/${settings.whatsapp}` : '#'
   const fbLink = settings?.facebook || '#'
 
   const hasInfo = !!(settings?.whatsapp || settings?.phone1 || settings?.phone2 || settings?.email || settings?.facebook || settings?.address)
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setSending(true)
-    setTimeout(() => { setSending(false); setSent(true) }, 1500)
-  }
 
   return (
     <Section id="contact">
@@ -291,26 +281,33 @@ export default function LKContact({ settings }: Props) {
           )}
 
           <FormCol>
-            <Form onSubmit={handleSubmit}>
+            <Form
+              action="https://formsubmit.co/ventas@laserking.com.ar"
+              method="POST"
+            >
+              <input type="hidden" name="_next" value="https://laserking.com.ar/" />
+              <input type="hidden" name="_subject" value="Nuevo mensaje desde el sitio web" />
+              <input type="hidden" name="_captcha" value="true" />
+
               <FormTitle>ENVIANOS UN MENSAJE</FormTitle>
               <FormSubtitle>Te respondemos a la brevedad</FormSubtitle>
 
               <FormRow>
                 <FormGroup>
-                  <input type="text" placeholder="Nombre" required />
+                  <input type="text" name="name" placeholder="Nombre" required />
                 </FormGroup>
                 <FormGroup>
-                  <input type="email" placeholder="Email" required />
+                  <input type="email" name="email" placeholder="Email" required />
                 </FormGroup>
               </FormRow>
               <FormGroup>
-                <input type="tel" placeholder="Teléfono (opcional)" />
+                <input type="tel" name="phone" placeholder="Teléfono (opcional)" />
               </FormGroup>
               <FormGroup>
-                <textarea placeholder="Tu mensaje..." required />
+                <textarea name="message" placeholder="Tu mensaje..." required />
               </FormGroup>
-              <SubmitBtn type="submit" $sent={sent} disabled={sending || sent}>
-                {sending ? 'Enviando...' : sent ? '✓ Mensaje enviado' : '▶ Enviar mensaje'}
+              <SubmitBtn type="submit" $sent={false}>
+                ▶ Enviar mensaje
               </SubmitBtn>
             </Form>
           </FormCol>
